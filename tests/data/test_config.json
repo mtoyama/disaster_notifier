@@ -1,0 +1,23 @@
+{
+    "users": [
+        {
+            "id": "54d4af26-0195-46f7-8a9c-1bf3c43acf90",
+            "name": "Mike T",
+            "phone_number": "+18084895996",
+            "events": [
+                {
+                    "summary": "Earthquake: Magnitude 7.0+",
+                    "trigger_earthquake": {
+                        "id": "f615814a-71d9-407a-800d-f213c5bef56a",
+                        "min_magnitude": 7,
+                        "location": null,
+                        "radius": null
+                    },
+                    "send_message_action" : {
+                        "phone_number": "+18084895996"
+                    }
+                }
+            ]
+        }
+    ]
+}
