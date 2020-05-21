@@ -4,6 +4,7 @@ import datetime
 import asyncio
 import aiohttp
 from .base import DataSource, Status
+from .register import Register
 LOGGER = logging.getLogger(__name__)
 
 # API Reference:
@@ -12,13 +13,15 @@ LOGGER = logging.getLogger(__name__)
 base_url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/"
 
 class USGSEarthquakeData(DataSource):
+    get_data_sequence = Register()
+    filter_data_sequence = Register()
+
     def __init__(self):
-        super.__init__(self)
+        super().__init__()
         self._current_get_json = None
-        self._current_payload = {}
         self._checked_ids = []
 
-    @self.register_get_data_func(index=0)
+    @get_data_sequence.add_func(index=0)
     async def get_past_hour_earthquakes(self):
         self._last_get_dt = datetime.datetime.now()
         endpoint = "all_hour.geojson"
@@ -28,10 +31,10 @@ class USGSEarthquakeData(DataSource):
             async with session.get(url) as response:
                 self._current_get_json = await response.json()
     
-    @self.register_filter_data_func(index=0)
+    @filter_data_sequence.add_func(index=0)
     def filter_data(self, triggers):
         for trigger in triggers:
-            self._current_payload[trigger_id] = []
+            self._current_payload[trigger.id] = []
         for earthquake in self._current_get_json["features"]:
             eq_id = earthquake["id"]
             LOGGER.info("Reviewing earthquake {eq_id} for filter matches.")
@@ -39,14 +42,16 @@ class USGSEarthquakeData(DataSource):
                 LOGGER.info(f"Earthquake already reviewed -- skipping.")
                 continue
             for trigger in triggers:
-                if trigger.test_all(
-                    earthquake["mag"],
-                    earthquake["tsunami"],
-                    earthquake["location"],) is True:
+                if trigger.test_trigger(
+                    earthquake["properties"]["mag"],
+                    earthquake["properties"]["tsunami"],
+                    earthquake["geometry"]["coordinates"],) is True:
                     self._current_payload[trigger.id].append(earthquake)
             self._checked_ids.append(eq_id)
     
     def get_payload(self):
-        return self._current_payload
+        payload = self._current_payload
+        self._current_payload = {}
+        return payload
 
 

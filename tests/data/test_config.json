@@ -10,6 +10,7 @@
                     "trigger_earthquake": {
                         "id": "f615814a-71d9-407a-800d-f213c5bef56a",
                         "min_magnitude": 7,
+                        "tsunami": null,
                         "location": null,
                         "radius": null
                     },

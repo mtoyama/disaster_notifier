@@ -1,8 +1,12 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),'..')))
+print(sys.path)
 
-import src
+from src.config import user
+from src.config import trigger_earthquake
+from src.config import actions
+from src.data_sources import usgs
 
 data_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))
 TEST_CONFIG_JSON = os.path.join(data_folder, 'test_config.json')

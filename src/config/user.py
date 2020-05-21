@@ -7,9 +7,8 @@ class User:
                  name=None,
                  phone_number=None,
                  events=None,
-                 json_file=None):
-        if json_file:
-            json_dict = json.load(json_file)
+                 json_dict=None):
+        if json_dict:
             self.id = json_dict['id']
             self.name = json_dict['name']
             self.phone_number = json_dict['phone_number']

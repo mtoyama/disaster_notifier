@@ -36,15 +36,15 @@ class EarthquakeTrigger:
 
     def test_min_magnitude(self, magnitude):
         if self.min_magnitude is None: 
-            return False
-        elif magnitude > self.min_magnitude:
+            return True
+        elif magnitude >= self.min_magnitude:
             return True
         else:
             return False
     
     def test_tsunami(self, tsunami):
         if self.tsunami is None:
-            return False
+            return True
         elif tsunami == self.tsunami:
             return True
         else:
@@ -52,5 +52,5 @@ class EarthquakeTrigger:
     
     def test_location(self, location):
         #$TODO test location
-        pass
+        return True
 
