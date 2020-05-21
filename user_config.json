@@ -3,7 +3,7 @@
         {
             "id": "54d4af26-0195-46f7-8a9c-1bf3c43acf90",
             "name": "Mike T",
-            "phone_number": null,
+            "phone_number_key": "MIKE_PHONE",
             "events": [
                 {
                     "summary": "Earthquake: Magnitude 7.0+",
@@ -15,7 +15,7 @@
                         "radius": null
                     },
                     "send_message_action" : {
-                        "phone_number": null
+                        "phone_number_key": "MIKE_PHONE"
                     }
                 }
             ]

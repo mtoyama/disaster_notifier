@@ -3,7 +3,7 @@ import pytest
 
 @pytest.fixture
 def sms_messenger():
-    return actions.SMSMessageAction(phone_number="+18084895996")
+    return actions.SMSMessageAction(phone_number_key="MIKE_PHONE")
 
 @pytest.mark.skip
 def test_send_message(sms_messenger):
