@@ -42,10 +42,13 @@ class USGSEarthquakeData(DataSource):
                 LOGGER.info(f"Earthquake already reviewed -- skipping.")
                 continue
             for trigger in triggers:
+                # Reverse the tuple to be latitude first
+                location = (earthquake["geometry"]["coordinates"][1],
+                            earthquake["geometry"]["coordinates"][0])
                 if trigger.test_trigger(
                     earthquake["properties"]["mag"],
                     earthquake["properties"]["tsunami"],
-                    earthquake["geometry"]["coordinates"],) is True:
+                    location) is True:
                     self._current_payload[trigger.id].append(earthquake)
             self._checked_ids.append(eq_id)
     

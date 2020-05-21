@@ -1,3 +1,8 @@
+import sys
+import os
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__),'..')))
+from src import utils
+
 class EarthquakeTrigger:
     def __init__(self,
                  json_dict=None,
@@ -51,6 +56,12 @@ class EarthquakeTrigger:
             return False
     
     def test_location(self, location):
-        #$TODO test location
-        return True
+        if self.location is None or self.radius is None:
+            return True
+
+        distance = utils.lat_long_check_within_radius(location, self.location)
+        if distance <= self.radius:
+            return True
+        else:
+            return False
 

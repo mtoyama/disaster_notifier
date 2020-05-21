@@ -9,13 +9,9 @@ def earthquake_trigger_base():
         id = 'test',
         min_magnitude = 0,
         tsunami = None,
-        location = None, #TBI
-        radius = None, #TBI
+        location = None,
+        radius = None,
     )
-
-@pytest.fixture
-def usgs_data():
-    return usgs.USGSEarthquakeData()
 
 def test_usgs_filter_mock(usgs_data,
                           earthquake_trigger_base,
