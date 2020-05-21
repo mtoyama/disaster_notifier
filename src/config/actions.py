@@ -1,10 +1,5 @@
 from twilio.rest import Client
 
-# Your Account Sid and Auth Token from twilio.com/console
-# DANGER! This is insecure. See http://twil.io/secure
-account_sid = 'ACb028947829ceec6bf59df837848bcbc0'
-auth_token = '1ee987a6bd4cf4f4bc9d720bf3fb5c41'
-
 class SMSMessageAction:
     def __init__(self, phone_number=None, json_dict=None):
         if json_dict:
