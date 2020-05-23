@@ -5,8 +5,10 @@ print(sys.path)
 
 from src.config import user
 from src.config import trigger_earthquake
+from src.config import trigger_weather_alert
 from src.config import actions
 from src.data_sources import usgs
+from src.data_sources import nws_alerts
 from src import utils
 
 data_folder = os.path.abspath(os.path.join(os.path.dirname(__file__), 'data'))

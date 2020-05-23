@@ -1,7 +1,7 @@
 import pytest
 import json
 from context import TEST_CONFIG_JSON, TEST_USGS_JSON
-from context import usgs
+from context import usgs, nws_alerts
 
 @pytest.fixture
 def test_config_json_dict():
@@ -20,3 +20,7 @@ def user(test_config_json_dict):
 @pytest.fixture
 def usgs_data():
     return usgs.USGSEarthquakeData()
+
+@pytest.fixture
+def nws_alerts_data():
+    return nws_alerts.NWSAlertsData()

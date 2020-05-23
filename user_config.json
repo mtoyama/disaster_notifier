@@ -69,6 +69,18 @@
                     "send_message_action" : {
                         "phone_number_key": "MIKE_PHONE"
                     }
+                },
+                {
+                    "summary": "Severe Weather Alerts - San Mateo",
+                    "trigger": {
+                        "type": "weather_alert",
+                        "zones": ["CAC081"],
+                        "severities": null,
+                        "location": null
+                    },
+                    "send_message_action" : {
+                        "phone_number_key": "MIKE_PHONE"
+                    }
                 }
             ]
         }
