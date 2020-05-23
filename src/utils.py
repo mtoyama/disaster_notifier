@@ -40,5 +40,5 @@ def timestamp_to_readable(timestamp: int) -> str:
 
 def lat_long_check_within_radius(latlong1: tuple,
                                  latlong2: tuple) -> int:
-    return geopy.distance.vincenty(latlong1, latlong2).miles
+    return geopy.distance.distance(latlong1, latlong2).miles
         

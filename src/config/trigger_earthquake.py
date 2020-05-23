@@ -6,19 +6,18 @@ from src import utils
 class EarthquakeTrigger:
     def __init__(self,
                  json_dict=None,
-                 id=None,
+                 event_id=None,
                  min_magnitude=None,
                  tsunami=None,
                  location=None,
                  radius=None):
+        self.event_id = event_id
         if json_dict:
-            self.id = json_dict['id']
             self.min_magnitude = json_dict['min_magnitude']
             self.tsunami = json_dict['tsunami']
             self.location = json_dict['location']
             self.radius = json_dict['radius']
         else:
-            self.id = id
             self.min_magnitude = min_magnitude
             self.tsunami = tsunami
             self.location = location

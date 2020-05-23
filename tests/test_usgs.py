@@ -6,7 +6,7 @@ from context import usgs, trigger_earthquake, TEST_USGS_JSON
 @pytest.fixture
 def earthquake_trigger_base():
     return trigger_earthquake.EarthquakeTrigger(
-        id = 'test',
+        event_id = 'test',
         min_magnitude = 0,
         tsunami = None,
         location = None,

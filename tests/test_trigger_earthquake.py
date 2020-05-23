@@ -4,7 +4,7 @@ import pytest
 @pytest.fixture
 def earthquake_trigger():
     return trigger_earthquake.EarthquakeTrigger(
-        id = 'test',
+        event_id = 'test',
         min_magnitude = 5,
         tsunami = 0,
         location = (38.892765, -118.001804),

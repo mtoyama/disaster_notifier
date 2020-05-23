@@ -34,7 +34,7 @@ class USGSEarthquakeData(DataSource):
     @filter_data_sequence.add_func(index=0)
     def filter_data(self, triggers):
         for trigger in triggers:
-            self._current_payload[trigger.id] = []
+            self._current_payload[trigger.event_id] = []
         for earthquake in self._current_get_json["features"]:
             eq_id = earthquake["id"]
             LOGGER.info("Reviewing earthquake {eq_id} for filter matches.")
@@ -49,7 +49,7 @@ class USGSEarthquakeData(DataSource):
                     earthquake["properties"]["mag"],
                     earthquake["properties"]["tsunami"],
                     location) is True:
-                    self._current_payload[trigger.id].append(earthquake)
+                    self._current_payload[trigger.event_id].append(earthquake)
             self._checked_ids.append(eq_id)
     
     def get_payload(self):

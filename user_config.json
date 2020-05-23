@@ -6,13 +6,65 @@
             "phone_number_key": "MIKE_PHONE",
             "events": [
                 {
-                    "summary": "Earthquake: Magnitude 7.0+",
-                    "trigger_earthquake": {
-                        "id": "f615814a-71d9-407a-800d-f213c5bef56a",
-                        "min_magnitude": 7,
+                    "summary": "Earthquake: Magnitude 6.0+",
+                    "trigger": {
+                        "type": "earthquake",
+                        "min_magnitude": 6,
                         "tsunami": null,
                         "location": null,
                         "radius": null
+                    },
+                    "send_message_action" : {
+                        "phone_number_key": "MIKE_PHONE"
+                    }
+                },
+                {
+                    "summary": "Earthquake: 3.5+ Mag within 200 miles of San Mateo",
+                    "trigger": {
+                        "type": "earthquake",
+                        "min_magnitude": 3.5,
+                        "tsunami": null,
+                        "location": [37.559866, -122.321334],
+                        "radius": 200
+                    },
+                    "send_message_action" : {
+                        "phone_number_key": "MIKE_PHONE"
+                    }
+                },
+                {
+                    "summary": "Earthquake: 4.0+ Mag within 200 miles of Honolulu",
+                    "trigger": {
+                        "type": "earthquake",
+                        "min_magnitude": 4.0,
+                        "tsunami": null,
+                        "location": [21.309528, -157.859479],
+                        "radius": 200
+                    },
+                    "send_message_action" : {
+                        "phone_number_key": "MIKE_PHONE"
+                    }
+                },
+                {
+                    "summary": "Earthquake: Tsunami risks to Hawaii",
+                    "trigger": {
+                        "type": "earthquake",
+                        "min_magnitude": null,
+                        "tsunami": 1,
+                        "location": [21.309528, -157.859479],
+                        "radius": 6000
+                    },
+                    "send_message_action" : {
+                        "phone_number_key": "MIKE_PHONE"
+                    }
+                },
+                {
+                    "summary": "Earthquake: Tsunami risks to Hawaii",
+                    "trigger": {
+                        "type": "earthquake",
+                        "min_magnitude": 5.0,
+                        "tsunami": null,
+                        "location": [21.309528, -157.859479],
+                        "radius": 6000
                     },
                     "send_message_action" : {
                         "phone_number_key": "MIKE_PHONE"
