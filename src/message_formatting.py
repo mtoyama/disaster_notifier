@@ -1,15 +1,4 @@
-import datetime
-import pytz
-import geopy.distance
-    
-def timestamp_to_readable(timestamp: int) -> str:
-    timestamp = datetime.datetime.fromtimestamp(timestamp//1000)
-    timestamp_tz = timestamp.astimezone(pytz.timezone("US/Pacific"))
-    return timestamp_tz.strftime("%Y/%m/%d %H:%M:%S %Z")
-
-def lat_long_check_within_radius(latlong1: tuple,
-                                 latlong2: tuple) -> int:
-    return geopy.distance.distance(latlong1, latlong2).miles
+from .utils import timestamp_to_readable
 
 def format_sms_earthquake(title, earthquake_list):
     message = []
@@ -38,6 +27,29 @@ def format_sms_earthquake(title, earthquake_list):
         
         url = properties["url"]
         message.append(f"More details: {url}")
+        message.append("\n")
+    
+    return "\n".join(message)
+
+def format_sms_nws_alert(title, alert_list):
+    message = []
+    message.append(title)
+    count = len(alert_list)
+    message.append(f"Weather alerts matching filter: {count}")
+    for index, alert in enumerate(alert_list):
+        message.append(f"Data for alert {index+1} of {count}:")
+        properties = alert['properties']
+        message.append(properties["parameters"]["NWSheadline"][0])
+
+        severity = properties['severity']
+        message.append(f"Severity: {severity}")
+
+        description = properties['description']
+        message.append(f"Description: {description}")
+
+        api_link = properties['@id']
+        message.append(f"More information: {api_link}")
+
         message.append("\n")
     
     return "\n".join(message)

@@ -6,10 +6,10 @@
             "phone_number_key": "MIKE_PHONE",
             "events": [
                 {
-                    "summary": "Earthquake: Magnitude 6.0+",
+                    "summary": "Earthquake: Magnitude 6.5+",
                     "trigger": {
                         "type": "earthquake",
-                        "min_magnitude": 6,
+                        "min_magnitude": 6.5,
                         "tsunami": null,
                         "location": null,
                         "radius": null
@@ -32,10 +32,10 @@
                     }
                 },
                 {
-                    "summary": "Earthquake: 4.0+ Mag within 200 miles of Honolulu",
+                    "summary": "Earthquake: 5.0+ Mag within 200 miles of Honolulu",
                     "trigger": {
                         "type": "earthquake",
-                        "min_magnitude": 4.0,
+                        "min_magnitude": 5.0,
                         "tsunami": null,
                         "location": [21.309528, -157.859479],
                         "radius": 200
@@ -45,7 +45,7 @@
                     }
                 },
                 {
-                    "summary": "Earthquake: Tsunami risks to Hawaii",
+                    "summary": "Earthquake: Tsunami risks to Hawaii (Tsunami event, 6000 miles)",
                     "trigger": {
                         "type": "earthquake",
                         "min_magnitude": null,
@@ -58,10 +58,10 @@
                     }
                 },
                 {
-                    "summary": "Earthquake: Tsunami risks to Hawaii",
+                    "summary": "Earthquake: Tsunami risks to Hawaii (M6.0+, 6000 miles)",
                     "trigger": {
                         "type": "earthquake",
-                        "min_magnitude": 5.0,
+                        "min_magnitude": 7.0,
                         "tsunami": null,
                         "location": [21.309528, -157.859479],
                         "radius": 6000
@@ -75,7 +75,7 @@
                     "trigger": {
                         "type": "weather_alert",
                         "zones": ["CAC081"],
-                        "severities": null,
+                        "severities": ["severe", "extreme"],
                         "location": null
                     },
                     "send_message_action" : {

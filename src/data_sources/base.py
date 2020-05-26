@@ -1,15 +1,24 @@
 from enum import Enum
 import logging
 import inspect
+import datetime
+import os
 
 LOGGER = logging.getLogger(__name__)
 
 class DataSource:
     def __init__(self):
         self.status = Status.INITIALIZED
+        self._last_get_dt = datetime.datetime.now() - datetime.timedelta(seconds=60)
         self._current_payload = {}
-        self.get_data_sequence = []
-        self.filter_data_sequence = []
+        self.filter_cache_path = os.path.join(
+            "/tmp",
+            f"{self.__class__.__name__}_filter_cache.txt"
+        )
+        if os.path.exists(self.filter_cache_path):
+            self._checked_ids = self.read_cached_filter_list()
+        else:
+            self._checked_ids = []
 
     @property
     def status(self):
@@ -23,12 +32,28 @@ class DataSource:
             raise ValueError(f"New status {new_status} not present in Status!")
         else:
             LOGGER.info(f"Updating {self.__class__.__name__} object to {new_status}")
+            if new_status == Status.GET_COMPLETED:
+                self.last_get_dt = datetime.datetime.now()
             self._status = new_status
 
     def get_payload(self):
+        LOGGER.info("Getting payload and resetting data source status")
         payload = self._current_payload
         self._current_payload = {}
+        self.status = Status.INITIALIZED
         return payload
+    
+    def cache_filter_list(self):
+        with open(self.filter_cache_path, 'w') as cache_file:
+            LOGGER.info(f"Writing out {self._checked_ids} to cache!")
+            cache_file.write('\n'.join(self._checked_ids))
+    
+    def read_cached_filter_list(self):
+        LOGGER.info(f"Initializing checked ids from file {self.filter_cache_path}")
+        with open(self.filter_cache_path, 'r') as cache_file:
+            items = [item.rstrip() for item in cache_file]
+        LOGGER.info(f"Adding the following items to the list: {items}")
+        return items
 
     @staticmethod
     def add_method_to_register(method, list, index):

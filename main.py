@@ -1,25 +1,31 @@
 import logging
 import asyncio
+import datetime
+import time
 import json
 import sys
 import os
-from src.data_sources import nws_alerts, usgs
+from src.data_sources import nws_alerts, usgs, register
 from src.data_sources.base import Status
 from src.config import user
 from src.config import trigger_earthquake
 from src.config import trigger_weather_alert
-from src import utils
+from src import utils, timing, message_formatting
 
 LOGGER = logging.getLogger(__name__)
 CONFIG = "./user_config.json"
+LOOP_INTERVAL = 60
 
 async def gather_async_register_funcs(usgs_data,
                                       nws_alerts_data,
                                       dicts_list,
                                       triggers_usgs,
                                       triggers_nws_alerts):
+
+    coros = []
     for func_dict in dicts_list:
-        await asyncio.gather(func_dict["func"](
+        coros.append(
+            func_dict["func"](
             *arrange_register_func_args(
                 usgs_data,
                 nws_alerts_data,
@@ -29,7 +35,42 @@ async def gather_async_register_funcs(usgs_data,
                 )
             )
         )
+    await asyncio.gather(*coros)
 
+def arrange_register_func_args(usgs_data,
+                               nws_alerts_data,
+                               func_dict,
+                               triggers_usgs,
+                               triggers_nws_alerts):
+    args = []
+    if func_dict["class"] == usgs.USGSEarthquakeData:
+        args.append(usgs_data)
+        triggers = triggers_usgs
+    elif func_dict["class"] == nws_alerts.NWSAlertsData:
+        args.append(nws_alerts_data)
+        triggers = triggers_nws_alerts
+
+    if func_dict["triggers"] is True:
+        args.append(triggers)
+
+    return args
+
+@timing.log_run_duration
+def run_async_register_funcs(usgs_data,
+                             nws_alerts_data,
+                             dicts_list,
+                             triggers_usgs,
+                             triggers_nws_alerts):
+    asyncio.run(gather_async_register_funcs(
+        usgs_data,
+        nws_alerts_data,
+        dicts_list,
+        triggers_usgs,
+        triggers_nws_alerts
+        )
+    )
+
+@timing.log_run_duration
 def run_serial_register_funcs(usgs_data,
                               nws_alerts_data,
                               dicts_list,
@@ -46,22 +87,30 @@ def run_serial_register_funcs(usgs_data,
             )
         )
 
-def arrange_register_func_args(usgs_data,
-                               nws_alerts_data,
-                               func_dict,
-                               triggers_usgs,
-                               triggers_nws_alerts):
-    args = []
-    if func_dict["func"].__self__.__class__ == usgs.USGSEarthquakeData:
-        triggers = triggers_usgs
-    elif func_dict["func"].__self__.__class__ == nws_alerts.NWSAlertsData:
-        triggers = triggers_nws_alerts
-
-    if func_dict["triggers"] is True:
-        args.append(triggers)
-
-    LOGGER.info(args)
-    return args
+@timing.log_run_duration
+def run_event_actions(data_sources, events_map):
+    for data_source in data_sources:
+        if data_source.status is not Status.FILTER_COMPLETED:
+            continue
+        if data_source.__class__ == usgs.USGSEarthquakeData:
+            formatter = message_formatting.format_sms_earthquake
+        elif data_source.__class__ == nws_alerts.NWSAlertsData:
+            formatter = message_formatting.format_sms_nws_alert
+        for key, value in data_source.get_payload().items():
+            event = events_map[key]
+            LOGGER.debug(f"Event: {event.summary}")
+            LOGGER.debug(f"Payload value: {value}")
+            if len(value) == 0:
+                LOGGER.info(f"No data present in payload for event {event.summary}")
+                continue
+            if event.send_message_action:
+                LOGGER.info(f"Sending SMS message for event {event.summary}")
+                event.send_message_action.send_message(
+                    formatter(
+                        event.summary,
+                        value
+                    )
+                )
                                 
 
 def main():
@@ -86,89 +135,42 @@ def main():
             elif event.trigger.__class__ == trigger_weather_alert.WeatherAlertTrigger:
                 triggers_nws_alerts.append(event.trigger)
 
-    data_sources = [nws_alerts_data, usgs_data]
-    index = 0
-    while index < max([(len(i.get_data_sequence)) for i in data_sources]):
-        async_func_dicts = []
-        serial_func_dicts = []
-        for source in data_sources:
-            if source.status == Status.GET_COMPLETED:
-                continue
-            register_dict = source.get_data_sequence[index]
-            if register_dict["async"] is True:
-                async_func_dicts.append(register_dict)
-            else:
-                serial_func_dicts.append(register_dict)
-        
-        asyncio.run(gather_async_register_funcs(
-            usgs_data, 
-            nws_alerts_data, 
-            async_func_dicts, 
-            triggers_usgs,
-            triggers_nws_alerts
-            )
-        )
-        run_serial_register_funcs(
-            usgs_data, 
-            nws_alerts_data, 
-            serial_func_dicts, 
-            triggers_usgs,
-            triggers_nws_alerts
-        )
+    data_sources = [usgs_data, nws_alerts_data]
+    try:
+        while True:
+            index = 0
+            data_source_process_start = datetime.datetime.now()
+            while index < register.SourceRegister.get_long_pole_count():
+                async_func_dicts, serial_func_dicts = register.SourceRegister.\
+                    get_actions_by_async_at_index(index)
 
-        for source in data_sources:
-            if index == len(source.get_data_sequence) - 1:
-                source.status = Status.GET_COMPLETED
-        
-        index += 1
-
-    index = 0
-    while index < max([(len(i.filter_data_sequence)) for i in data_sources]):
-        async_func_dicts = []
-        serial_func_dicts = []
-        for source in data_sources:
-            if source.status == Status.FILTER_COMPLETED or \
-                len(source.filter_data_sequence) == 0:
-                continue
-            register_dict = source.filter_data_sequence[index]
-            if register_dict["async"] is True:
-                async_func_dicts.append(register_dict)
-            else:
-                serial_func_dicts.append(register_dict)
-        
-        asyncio.run(gather_async_register_funcs(
-            usgs_data, 
-            nws_alerts_data, 
-            async_func_dicts, 
-            triggers_usgs,
-            triggers_nws_alerts
-            )
-        )
-        run_serial_register_funcs(
-            usgs_data, 
-            nws_alerts_data, 
-            serial_func_dicts, 
-            triggers_usgs,
-            triggers_nws_alerts
-        )
-
-        for source in data_sources:
-            if index == len(source.filter_data_sequence) - 1:
-                source.status = Status.FILTER_COMPLETED
-
-        index += 1
-    
-    for key, value in usgs_data.get_payload().items():
-        event = events_map[key]
-        if len(value) == 0:
-            continue
-        if event.send_message_action:
-            event.send_message_action.send_message(
-                utils.format_sms_earthquake(
-                    event.summary,
-                    value
+                run_async_register_funcs(
+                    usgs_data, 
+                    nws_alerts_data, 
+                    async_func_dicts, 
+                    triggers_usgs,
+                    triggers_nws_alerts
                 )
-            )
+
+                run_serial_register_funcs(
+                    usgs_data, 
+                    nws_alerts_data, 
+                    serial_func_dicts, 
+                    triggers_usgs,
+                    triggers_nws_alerts
+                ) 
+                index += 1
+            data_source_process_duration = datetime.datetime.now() - data_source_process_start
+            data_source_process_duration_s = data_source_process_duration.total_seconds()
+            LOGGER.info(f"Data source process execution duration: {data_source_process_duration_s}")
+            
+            run_event_actions(data_sources, events_map)
+            LOGGER.info(f"Processing complete. Sleeping for {LOOP_INTERVAL}s")
+            time.sleep(LOOP_INTERVAL)
+    finally:
+        LOGGER.warning("Server shutting down!")
+        for data_source in data_sources:
+            data_source.cache_filter_list()
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

@@ -1,0 +1,292 @@
+{
+  "@context": [
+    "https://raw.githubusercontent.com/geojson/geojson-ld/master/contexts/geojson-base.jsonld",
+    {
+      "wx": "https://api.weather.gov/ontology#",
+      "@vocab": "https://api.weather.gov/ontology#"
+    }
+  ],
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "id": "https://api.weather.gov/alerts/NWS-IDP-PROD-4237905",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -89.09,
+              46.14
+            ],
+            [
+              -88.67,
+              45.99
+            ],
+            [
+              -88.53,
+              46.02
+            ],
+            [
+              -88.1,
+              45.92
+            ],
+            [
+              -88.78,
+              43.9
+            ],
+            [
+              -88.89,
+              43.9
+            ],
+            [
+              -88.89,
+              43.979999899999996
+            ],
+            [
+              -89.6,
+              43.979999899999996
+            ],
+            [
+              -89.6,
+              44.24999999999999
+            ],
+            [
+              -90.3199999,
+              44.24999999999999
+            ],
+            [
+              -90.31,
+              45.029999999999994
+            ],
+            [
+              -90.2,
+              45.03999999999999
+            ],
+            [
+              -90.2,
+              45.11999999999999
+            ],
+            [
+              -90.04,
+              45.11999999999999
+            ],
+            [
+              -90.05000000000001,
+              45.97999989999999
+            ],
+            [
+              -89.93,
+              45.97999989999999
+            ],
+            [
+              -89.93,
+              46.29999999999999
+            ],
+            [
+              -89.09,
+              46.14
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "@id": "https://api.weather.gov/alerts/NWS-IDP-PROD-4237905",
+        "@type": "wx:Alert",
+        "id": "NWS-IDP-PROD-4237905",
+        "areaDesc": "Southern Oconto County; Florence; Northern Marinette County; Portage; Northern Oconto County; Waupaca; Menominee; Outagamie; Forest; Waushara; Langlade; Marathon; Lincoln; Shawano; Winnebago; Wood; Oneida; Vilas",
+        "geocode": {
+          "UGC": [
+            "WIZ074",
+            "WIZ012",
+            "WIZ013",
+            "WIZ036",
+            "WIZ021",
+            "WIZ037",
+            "WIZ020",
+            "WIZ038",
+            "WIZ011",
+            "WIZ045",
+            "WIZ019",
+            "WIZ030",
+            "WIZ018",
+            "WIZ031",
+            "WIZ048",
+            "WIZ035",
+            "WIZ010",
+            "WIZ005"
+          ],
+          "SAME": [
+            "055083",
+            "055037",
+            "055075",
+            "055097",
+            "055135",
+            "055078",
+            "055087",
+            "055041",
+            "055137",
+            "055067",
+            "055073",
+            "055069",
+            "055115",
+            "055139",
+            "055141",
+            "055085",
+            "055125"
+          ]
+        },
+        "affectedZones": [
+          "https://api.weather.gov/zones/forecast/WIZ074",
+          "https://api.weather.gov/zones/forecast/WIZ012",
+          "https://api.weather.gov/zones/forecast/WIZ013",
+          "https://api.weather.gov/zones/forecast/WIZ036",
+          "https://api.weather.gov/zones/forecast/WIZ021",
+          "https://api.weather.gov/zones/forecast/WIZ037",
+          "https://api.weather.gov/zones/forecast/WIZ020",
+          "https://api.weather.gov/zones/forecast/WIZ038",
+          "https://api.weather.gov/zones/forecast/WIZ011",
+          "https://api.weather.gov/zones/forecast/WIZ045",
+          "https://api.weather.gov/zones/forecast/WIZ019",
+          "https://api.weather.gov/zones/forecast/WIZ030",
+          "https://api.weather.gov/zones/forecast/WIZ018",
+          "https://api.weather.gov/zones/forecast/WIZ031",
+          "https://api.weather.gov/zones/forecast/WIZ048",
+          "https://api.weather.gov/zones/forecast/WIZ035",
+          "https://api.weather.gov/zones/forecast/WIZ010",
+          "https://api.weather.gov/zones/forecast/WIZ005"
+        ],
+        "references": [],
+        "sent": "2020-05-26T14:56:00-05:00",
+        "effective": "2020-05-26T14:56:00-05:00",
+        "onset": "2020-05-26T14:56:00-05:00",
+        "expires": "2020-05-26T16:30:00-05:00",
+        "ends": null,
+        "status": "Actual",
+        "messageType": "Alert",
+        "category": "Met",
+        "severity": "Moderate",
+        "certainty": "Observed",
+        "urgency": "Expected",
+        "event": "Special Weather Statement",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "senderName": "NWS Green Bay WI",
+        "headline": "Special Weather Statement issued May 26 at 2:56PM CDT by NWS Green Bay WI",
+        "description": "At 254 PM CDT, Doppler radar was tracking thunderstorms moving\nacross central and northern Wisconsin, moving north at 35 mph.\n\nHalf inch hail and winds in excess of 40 mph will be possible with\nthese storms. Spotters have reported isolated wind gusts up to 50\nmph.\n\nThese storms are expected to dissipate around sunset.\n\nLocations impacted include...\nWausau, Stevens Point, Wisconsin Rapids, Shawano, Antigo,\nRhinelander, Waupaca, Wautoma, Crandon and Eagle River.",
+        "instruction": "If outdoors, consider seeking shelter inside a building.\n\nTorrential rainfall is also occurring with this storm, and may lead\nto localized flooding. Do not drive your vehicle through flooded\nroadways.",
+        "response": "Execute",
+        "parameters": {
+          "eventMotionDescription": [
+            "2020-05-26T14:54:00.000-05:00...storm...199DEG...31KT...44.92,-89.28"
+          ],
+          "NWSheadline": [
+            "THUNDERSTORMS MOVING ACROSS CENTRAL AND NORTHERN WISCONSIN"
+          ],
+          "EAS-ORG": [
+            "WXR"
+          ],
+          "PIL": [
+            "GRBSPSGRB"
+          ],
+          "BLOCKCHANNEL": [
+            "CMAS",
+            "EAS",
+            "NWEM"
+          ]
+        }
+      }
+    },
+    {
+      "id": "https://api.weather.gov/alerts/NWS-IDP-PROD-4237904",
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -85.19,
+              37.61
+            ],
+            [
+              -85.28999999999999,
+              37.56
+            ],
+            [
+              -85.52,
+              37.74
+            ],
+            [
+              -85.28,
+              37.86
+            ],
+            [
+              -85.19,
+              37.61
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "@id": "https://api.weather.gov/alerts/NWS-IDP-PROD-4237904",
+        "@type": "wx:Alert",
+        "id": "NWS-IDP-PROD-4237904",
+        "areaDesc": "Washington; Nelson; Marion",
+        "geocode": {
+          "UGC": [
+            "KYZ046",
+            "KYZ045",
+            "KYZ054"
+          ],
+          "SAME": [
+            "021229",
+            "021179",
+            "021155"
+          ]
+        },
+        "affectedZones": [
+          "https://api.weather.gov/zones/forecast/KYZ046",
+          "https://api.weather.gov/zones/forecast/KYZ045",
+          "https://api.weather.gov/zones/forecast/KYZ054"
+        ],
+        "references": [],
+        "sent": "2020-05-26T15:55:00-04:00",
+        "effective": "2020-05-26T15:55:00-04:00",
+        "onset": "2020-05-26T15:55:00-04:00",
+        "expires": "2020-05-26T16:30:00-04:00",
+        "ends": null,
+        "status": "Actual",
+        "messageType": "Alert",
+        "category": "Met",
+        "severity": "Moderate",
+        "certainty": "Observed",
+        "urgency": "Expected",
+        "event": "Special Weather Statement",
+        "sender": "w-nws.webmaster@noaa.gov",
+        "senderName": "NWS Louisville KY",
+        "headline": "Special Weather Statement issued May 26 at 3:55PM EDT by NWS Louisville KY",
+        "description": "At 354 PM EDT, a strong thunderstorm was located near Springfield,\nmoving northwest at 20 mph.\n\nWinds in excess of 40 mph are possible with this storm.\n\nLocations impacted include...\nLebanon, Springfield, Loretto, Burkes Spring, Booker, Nerinx,\nBearwallow, Maud, Briartown and Botland.\n\nIf outdoors, consider seeking shelter inside a building.\n\nTorrential rainfall is also occurring with this storm, and may cause\nlocalized flooding. Do not drive your vehicle through flooded\nroadways.",
+        "instruction": null,
+        "response": "Execute",
+        "parameters": {
+          "eventMotionDescription": [
+            "2020-05-26T15:54:00.000-04:00...storm...150DEG...16KT...37.66,-85.29"
+          ],
+          "NWSheadline": [
+            "A STRONG THUNDERSTORM WILL AFFECT CENTRAL NELSON...NORTHWESTERN MARION AND SOUTHWESTERN WASHINGTON COUNTIES"
+          ],
+          "EAS-ORG": [
+            "WXR"
+          ],
+          "PIL": [
+            "LMKSPSLMK"
+          ],
+          "BLOCKCHANNEL": [
+            "CMAS",
+            "EAS",
+            "NWEM"
+          ]
+        }
+      }
+    }
+  ]
+}
