@@ -44,7 +44,8 @@ def format_sms_nws_alert(title, alert_list):
         severity = properties['severity']
         message.append(f"Severity: {severity}")
 
-        description = properties['description']
+        description = properties['description'].split("\n")
+        description_header = description[0]
         message.append(f"Description: {description}")
 
         api_link = properties['@id']
