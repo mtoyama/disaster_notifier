@@ -47,7 +47,7 @@ def test_send_message_eq_info(sms_messenger,
             )
         )
 
-#@pytest.mark.skip
+@pytest.mark.skip
 def test_send_message_nws_alerts(sms_messenger,
                                  nws_alerts_data,
                                  nws_trigger_base,
