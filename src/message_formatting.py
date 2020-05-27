@@ -40,14 +40,8 @@ def format_sms_nws_alert(title, alert_list):
         message.append(f"Data for alert {index+1} of {count}:")
         properties = alert['properties']
         message.append(properties["parameters"]["NWSheadline"][0])
-
         severity = properties['severity']
         message.append(f"Severity: {severity}")
-
-        description = properties['description'].split("\n")
-        description_header = description[0]
-        message.append(f"Description: {description_header}")
-
         api_link = properties['@id']
         message.append(f"More information: {api_link}")
 
