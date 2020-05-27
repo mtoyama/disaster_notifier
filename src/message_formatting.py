@@ -46,7 +46,7 @@ def format_sms_nws_alert(title, alert_list):
 
         description = properties['description'].split("\n")
         description_header = description[0]
-        message.append(f"Description: {description}")
+        message.append(f"Description: {description_header}")
 
         api_link = properties['@id']
         message.append(f"More information: {api_link}")
