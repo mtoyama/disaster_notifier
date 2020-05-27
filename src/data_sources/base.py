@@ -12,7 +12,7 @@ class DataSource:
         self._last_get_dt = datetime.datetime.now() - datetime.timedelta(seconds=60)
         self._current_payload = {}
         self.filter_cache_path = os.path.join(
-            "/tmp",
+            os.getenv("HOME"),
             f"{self.__class__.__name__}_filter_cache.txt"
         )
         if os.path.exists(self.filter_cache_path):
